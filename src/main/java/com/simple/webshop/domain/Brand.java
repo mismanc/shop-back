@@ -12,8 +12,8 @@ import lombok.*;
 public class Brand {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "brand_id_seq")
-    @SequenceGenerator(name = "brand_id_seq", sequenceName = "brand_id_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "brand_id_gen")
+    @SequenceGenerator(name = "brand_id_gen", sequenceName = "brand_id_seq")
     private Long id;
 
     @Column(unique = true, nullable = false)
