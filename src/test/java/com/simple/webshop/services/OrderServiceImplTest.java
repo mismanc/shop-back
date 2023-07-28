@@ -1,6 +1,8 @@
 package com.simple.webshop.services;
 
+import com.simple.webshop.controller.errorhandler.CardNotValidException;
 import com.simple.webshop.domain.Order;
+import com.simple.webshop.model.CardDTO;
 import com.simple.webshop.model.OrderDTO;
 import com.simple.webshop.model.ProductDTO;
 import com.simple.webshop.model.ShippingOption;
@@ -8,21 +10,21 @@ import com.simple.webshop.repository.OrderRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
+import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class OrderServiceImplTest {
 
-    @MockBean
+    @Mock
     OrderRepository orderRepository;
 
     @InjectMocks
@@ -35,6 +37,8 @@ public class OrderServiceImplTest {
         OrderDTO orderDTO = OrderDTO.builder()
                 .name(order.getClientName())
                 .address(order.getClientAddress())
+                .cardDTO(createCard())
+                .products(productDTOList())
                 .shippingOption(ShippingOption.STANDARD_FREE)
                 .build();
         OrderDTO savedOrder = orderService.saveOrder(orderDTO);
@@ -45,10 +49,18 @@ public class OrderServiceImplTest {
 
     @Test
     void calculateTotalProductValue() {
-        ProductDTO p1 = new ProductDTO(1L, "Macbook Pro", new BigDecimal("100"), "Apple");
-        ProductDTO p2 = new ProductDTO(2L, "Yoğurt", new BigDecimal("200"), "Torku");
-        BigDecimal totalProduct = orderService.calculateTotalProductValue(Arrays.asList(p1,p2));
+        BigDecimal totalProduct = orderService.calculateTotalProductValue(productDTOList());
         assertEquals(totalProduct, new BigDecimal("354.00"));
+    }
+
+    @Test
+    void cardValidator() {
+        assertTrue(orderService.validateCard("5555555555554444", "10/24"));
+        Exception exception = assertThrows(CardNotValidException.class, () -> {
+            orderService.validateCard("5555555555554444", "10/19");
+        });
+        String expectedMessage = "Card information is not valid";
+        assertEquals(expectedMessage, exception.getMessage());
     }
 
     @Test
@@ -65,7 +77,7 @@ public class OrderServiceImplTest {
         assertEquals(orderService.calculateTotalShippingValue(orderDTO.getShippingOption()), BigDecimal.valueOf(10));
     }
 
-    private Order createOrder(){
+    private Order createOrder() {
         return Order.builder()
                 .id(1L)
                 .clientName("John Doe")
@@ -74,4 +86,16 @@ public class OrderServiceImplTest {
                 .totalShippingValue(BigDecimal.ZERO)
                 .build();
     }
+
+    private List<ProductDTO> productDTOList(){
+        ProductDTO p1 = new ProductDTO(1L, "Macbook Pro", new BigDecimal("100"), "Apple");
+        ProductDTO p2 = new ProductDTO(2L, "Yoğurt", new BigDecimal("200"), "Torku");
+        return Arrays.asList(p1, p2);
+    }
+
+    private CardDTO createCard() {
+        return CardDTO.builder().cardNumber("5555555555554444")
+                .expirationDate("10/24").build();
+    }
+
 }

@@ -1,5 +1,6 @@
 package com.simple.webshop.model;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import lombok.Builder;
 import lombok.Data;
@@ -27,5 +28,8 @@ public class OrderDTO {
     @NotEmpty(message = "Products can not be empty")
     private List<ProductDTO> products;
 
+    @Valid
+    @NotNull
+    private CardDTO cardDTO;
 
 }

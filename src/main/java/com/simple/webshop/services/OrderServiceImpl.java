@@ -1,26 +1,32 @@
 package com.simple.webshop.services;
 
+import com.simple.webshop.controller.errorhandler.CardNotValidException;
 import com.simple.webshop.domain.Order;
 import com.simple.webshop.model.OrderDTO;
 import com.simple.webshop.model.ProductDTO;
 import com.simple.webshop.model.ShippingOption;
 import com.simple.webshop.repository.OrderRepository;
+import com.simple.webshop.util.CardValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @RequiredArgsConstructor
 @Service
 public class OrderServiceImpl implements OrderService {
 
+    private static final DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/MM/yy");
     private final OrderRepository orderRepository;
 
     @Transactional
     @Override
     public OrderDTO saveOrder(OrderDTO orderDTO) {
+        validateCard(orderDTO.getCardDTO().getCardNumber(), orderDTO.getCardDTO().getExpirationDate());
         Order order = Order.builder()
                 .totalProductValue(calculateTotalProductValue(orderDTO.getProducts()))
                 .totalShippingValue(calculateTotalShippingValue(orderDTO.getShippingOption()))
@@ -30,6 +36,16 @@ public class OrderServiceImpl implements OrderService {
         Order savedOrder = orderRepository.save(order);
         orderDTO.setId(savedOrder.getId());
         return orderDTO;
+    }
+
+    public boolean validateCard(String number, String expirationDate) {
+        number = number.replaceAll("\\s", "");
+        expirationDate = expirationDate.replaceAll("\\s", "");
+        LocalDate cardExpirationDate = LocalDate.parse("01/" + expirationDate, df);
+        if (!CardValidator.check(number) || cardExpirationDate.isBefore(LocalDate.now())) {
+            throw new CardNotValidException();
+        }
+        return true;
     }
 
     public BigDecimal calculateTotalProductValue(List<ProductDTO> products) {

@@ -1,6 +1,7 @@
 package com.simple.webshop.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.simple.webshop.model.CardDTO;
 import com.simple.webshop.model.OrderDTO;
 import com.simple.webshop.model.ProductDTO;
 import com.simple.webshop.model.ShippingOption;
@@ -38,6 +39,7 @@ public class OrderControllerTest {
     public void shouldFailProductsNull() throws Exception {
         OrderDTO orderDTO = OrderDTO.builder()
                 .address("address").name("John Doe")
+                .cardDTO(createCard())
                 .shippingOption(ShippingOption.EXPRESS)
                 .build();
 
@@ -54,6 +56,7 @@ public class OrderControllerTest {
     public void shouldFailShippingNotExist() throws Exception {
         OrderDTO orderDTO = OrderDTO.builder()
                 .address("address").name("John Doe")
+                .cardDTO(createCard())
                 .products(Collections.singletonList(createProduct()))
                 .build();
 
@@ -69,6 +72,7 @@ public class OrderControllerTest {
     public void shouldFailIdNotNull() throws Exception {
         OrderDTO orderDTO = OrderDTO.builder()
                 .address("address").name("John Doe")
+                .cardDTO(createCard())
                 .shippingOption(ShippingOption.EXPRESS)
                 .id(4L)
                 .products(Collections.singletonList(createProduct()))
@@ -87,6 +91,7 @@ public class OrderControllerTest {
         OrderDTO orderDTO = OrderDTO.builder()
                 .address("address").name("John Doe")
                 .shippingOption(ShippingOption.EXPRESS)
+                .cardDTO(createCard())
                 .products(Collections.singletonList(createProduct()))
                 .build();
 
@@ -112,6 +117,11 @@ public class OrderControllerTest {
 
     private ProductDTO createProduct() {
         return new ProductDTO(2L, "Macbook Pro", new BigDecimal("80000.00"), "Apple");
+    }
+
+    private CardDTO createCard() {
+        return CardDTO.builder().cardNumber("5555555555554444")
+                .expirationDate("10/24").build();
     }
 
 }
