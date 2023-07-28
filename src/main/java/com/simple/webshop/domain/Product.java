@@ -3,6 +3,8 @@ package com.simple.webshop.domain;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -19,9 +21,9 @@ public class Product {
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false)
-    private Double price;
+    @Column(nullable = false, scale = 2, precision = 10)
+    private BigDecimal price;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Brand brand;
 }

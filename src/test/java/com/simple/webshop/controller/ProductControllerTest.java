@@ -13,6 +13,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 
 import static org.mockito.Mockito.when;
@@ -29,8 +30,8 @@ public class ProductControllerTest {
     @Test
     @DisplayName("Should List All Products Get Request to /api/v1/products")
     public void shouldListAllProducts() throws Exception {
-        ProductDTO p1 = new ProductDTO(1L, "Moon Çikolata",35.22,"Torku");
-        ProductDTO p2 = new ProductDTO(2L, "Macbook Pro",80000.00,"Apple");
+        ProductDTO p1 = new ProductDTO(1L, "Moon Çikolata",new BigDecimal("35.22"),"Torku");
+        ProductDTO p2 = new ProductDTO(2L, "Macbook Pro",new BigDecimal("80000.00"),"Apple");
         when(productService.getAllProducts()).thenReturn(Arrays.asList(p1,p2));
 
         mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/products"))

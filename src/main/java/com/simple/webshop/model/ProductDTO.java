@@ -1,4 +1,6 @@
 package com.simple.webshop.model;
 
-public record ProductDTO(Long id, String name, Double price, String brandName) {
+import java.math.BigDecimal;
+
+public record ProductDTO(Long id, String name, BigDecimal price, String brandName) {
 }
