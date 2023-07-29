@@ -30,6 +30,6 @@ public class OrderDTO {
 
     @Valid
     @NotNull
-    private CardDTO cardDTO;
+    private CardDTO card;
 
 }

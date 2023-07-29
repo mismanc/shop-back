@@ -26,7 +26,7 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     @Override
     public OrderDTO saveOrder(OrderDTO orderDTO) {
-        validateCard(orderDTO.getCardDTO().getCardNumber(), orderDTO.getCardDTO().getExpirationDate());
+        validateCard(orderDTO.getCard().getCardNumber(), orderDTO.getCard().getExpirationDate());
         Order order = Order.builder()
                 .totalProductValue(calculateTotalProductValue(orderDTO.getProducts()))
                 .totalShippingValue(calculateTotalShippingValue(orderDTO.getShippingOption()))
