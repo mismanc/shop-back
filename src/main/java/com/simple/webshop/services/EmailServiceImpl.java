@@ -23,7 +23,7 @@ public class EmailServiceImpl implements EmailService {
 
     private static final String SENDER = "mismancelaleddin@gmail.com";
 
-    public Map<String, String> sendMail(String to, String subject, String htmlBody) {
+    private Map<String, String> sendMail(String to, String subject, String htmlBody) {
         Map<String, String> result = new HashMap<>();
         try {
             MimeMessage message = javaMailSender.createMimeMessage();
@@ -41,7 +41,7 @@ public class EmailServiceImpl implements EmailService {
         return result;
     }
 
-    public Map<String, String> sendMessageUsingThymeleafTemplate(String to, String subject, String templateName ,Map<String, Object> templateModel) {
+    public Map<String, String> sendMailWithTemplate(String to, String subject, String templateName, Map<String, Object> templateModel) {
         Context thymeleafContext = new Context();
         thymeleafContext.setVariables(templateModel);
         String htmlBody = thymeleafTemplateEngine.process(templateName, thymeleafContext);
@@ -49,5 +49,9 @@ public class EmailServiceImpl implements EmailService {
     }
 
 
-
+    @Override
+    public Map<String, String> adminOrderMail() {
+        Map<String, Object> params = new HashMap<>();
+        return sendMailWithTemplate("celaleddinmisman@gmail.com", "New Order", "order-admin.html", params);
+    }
 }

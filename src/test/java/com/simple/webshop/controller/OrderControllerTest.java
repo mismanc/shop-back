@@ -39,7 +39,7 @@ public class OrderControllerTest {
     public void shouldFailProductsNull() throws Exception {
         OrderDTO orderDTO = OrderDTO.builder()
                 .address("address").name("John Doe")
-                .cardDTO(createCard())
+                .card(createCard())
                 .shippingOption(ShippingOption.EXPRESS)
                 .build();
 
@@ -56,7 +56,7 @@ public class OrderControllerTest {
     public void shouldFailShippingNotExist() throws Exception {
         OrderDTO orderDTO = OrderDTO.builder()
                 .address("address").name("John Doe")
-                .cardDTO(createCard())
+                .card(createCard())
                 .products(Collections.singletonList(createProduct()))
                 .build();
 
@@ -72,7 +72,7 @@ public class OrderControllerTest {
     public void shouldFailIdNotNull() throws Exception {
         OrderDTO orderDTO = OrderDTO.builder()
                 .address("address").name("John Doe")
-                .cardDTO(createCard())
+                .card(createCard())
                 .shippingOption(ShippingOption.EXPRESS)
                 .id(4L)
                 .products(Collections.singletonList(createProduct()))
@@ -91,7 +91,7 @@ public class OrderControllerTest {
         OrderDTO orderDTO = OrderDTO.builder()
                 .address("address").name("John Doe")
                 .shippingOption(ShippingOption.EXPRESS)
-                .cardDTO(createCard())
+                .card(createCard())
                 .products(Collections.singletonList(createProduct()))
                 .build();
 

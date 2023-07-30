@@ -1,4 +1,16 @@
 spring:
+  mail:
+    host: smtp.google.com
+    port: 587
+    username: mismancelaleddin@gmail.com
+    password: kvyllzyavetxflef
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
   datasource:
     username: application
     password: '123app*.'

@@ -37,7 +37,7 @@ public class OrderServiceImplTest {
         OrderDTO orderDTO = OrderDTO.builder()
                 .name(order.getClientName())
                 .address(order.getClientAddress())
-                .cardDTO(createCard())
+                .card(createCard())
                 .products(productDTOList())
                 .shippingOption(ShippingOption.STANDARD_FREE)
                 .build();

@@ -11,10 +11,9 @@ import org.thymeleaf.templateresolver.ITemplateResolver;
 @Configuration
 public class MailConfiguration {
 
-    @Bean
-    public ITemplateResolver thymeleafTemplateResolver() {
+    private ITemplateResolver thymeleafTemplateResolver() {
         ClassLoaderTemplateResolver templateResolver = new ClassLoaderTemplateResolver();
-        templateResolver.setPrefix("templates/mail");
+        templateResolver.setPrefix("templates/mail/");
         templateResolver.setSuffix(".html");
         templateResolver.setTemplateMode("HTML");
         templateResolver.setCharacterEncoding("UTF-8");
@@ -22,9 +21,9 @@ public class MailConfiguration {
     }
 
     @Bean
-    public SpringTemplateEngine thymeleafTemplateEngine(ITemplateResolver templateResolver) {
+    public SpringTemplateEngine thymeleafTemplateEngine() {
         SpringTemplateEngine templateEngine = new SpringTemplateEngine();
-        templateEngine.setTemplateResolver(templateResolver);
+        templateEngine.setTemplateResolver(thymeleafTemplateResolver());
         templateEngine.setTemplateEngineMessageSource(emailMessageSource());
         return templateEngine;
     }
