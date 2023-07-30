@@ -15,6 +15,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -30,10 +31,15 @@ public class OrderServiceImplTest {
     @InjectMocks
     OrderServiceImpl orderService;
 
+    @Mock
+    EmailServiceImpl emailService;
+
     @Test
     void saveOrder() {
         Order order = createOrder();
         when(orderRepository.save(any(Order.class))).thenReturn(order);
+        when(emailService.adminOrderMail(any(Order.class)))
+                .thenReturn(Collections.singletonMap("success","true"));
         OrderDTO orderDTO = OrderDTO.builder()
                 .name(order.getClientName())
                 .address(order.getClientAddress())

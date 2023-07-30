@@ -22,6 +22,7 @@ public class OrderServiceImpl implements OrderService {
 
     private static final DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/MM/yy");
     private final OrderRepository orderRepository;
+    private final EmailService emailService;
 
     @Transactional
     @Override
@@ -35,6 +36,7 @@ public class OrderServiceImpl implements OrderService {
                 .build();
         Order savedOrder = orderRepository.save(order);
         orderDTO.setId(savedOrder.getId());
+        emailService.adminOrderMail(savedOrder);
         return orderDTO;
     }
 

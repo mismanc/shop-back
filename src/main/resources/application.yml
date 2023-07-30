@@ -38,3 +38,5 @@ logging:
   level:
     com:
       simple: debug
+shop:
+  mail-receiver: celaleddinmisman@gmail.com

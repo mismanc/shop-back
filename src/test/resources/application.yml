@@ -1,3 +1,5 @@
+shop:
+  mail-receiver: celaleddinmisman@gmail.com
 spring:
   jpa:
     properties:
