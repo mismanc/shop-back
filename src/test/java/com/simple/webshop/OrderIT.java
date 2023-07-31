@@ -19,6 +19,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.ResponseEntity;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Arrays;
 import java.util.Optional;
 
@@ -70,6 +72,8 @@ public class OrderIT {
 
         assertEquals(order.getId(), returnOrderDTO.getId());
         assertEquals(order.getClientName(), returnOrderDTO.getName());
+        assertEquals(p1.price().add(p2.price()).multiply(BigDecimal.valueOf(1.18))
+                .setScale(2, RoundingMode.HALF_UP), order.getTotalProductValue());
 
         MimeMessage receivedMessage = greenMail.getReceivedMessages()[0];
         assertEquals(1, receivedMessage.getAllRecipients().length);
