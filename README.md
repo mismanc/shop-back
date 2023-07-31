@@ -1,6 +1,6 @@
-# Spring Boot Simple Web Shop Application
+## Spring Boot Simple Web Shop Application
 
-### Checkout Frontend And Container
+### Checkout Frontend And Container Repositories
 
 ### [Shop Frontend](https://github.com/mismanc/shop-front)
 
