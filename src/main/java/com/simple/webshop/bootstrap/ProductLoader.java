@@ -31,15 +31,15 @@ public class ProductLoader implements CommandLineRunner {
             Brand lgBrand = Brand.builder().name("LG").build();
 
             brandRepository.saveAll(Arrays.asList(torkuBrand, maviBrand, appleBrand, lgBrand));
-            Product p1 = Product.builder().name("Yoğurt").price(new BigDecimal("30.00")).brand(torkuBrand).build();
-            Product p2 = Product.builder().name("Moon Çikolata").price(new BigDecimal("35.22")).brand(torkuBrand).build();
+            Product p1 = Product.builder().name("Yoğurt").price(new BigDecimal("5.00")).brand(torkuBrand).build();
+            Product p2 = Product.builder().name("Moon Çikolata").price(new BigDecimal("5.22")).brand(torkuBrand).build();
             Product p3 = Product.builder().name("Çubuk Kraker").price(new BigDecimal("20.00")).brand(torkuBrand).build();
-            Product p4 = Product.builder().name("T-Shirt Beyaz").price(new BigDecimal("324.99")).brand(maviBrand).build();
-            Product p5 = Product.builder().name("Short").price(new BigDecimal("424.99")).brand(maviBrand).build();
-            Product p6 = Product.builder().name("Macbook Pro").price(new BigDecimal("80000.00")).brand(appleBrand).build();
-            Product p7 = Product.builder().name("Iphone 17 Pro Max").price(new BigDecimal("37299.00")).brand(appleBrand).build();
-            Product p8 = Product.builder().name("TV OLED65G36 65 inch").price(new BigDecimal("96029.10")).brand(lgBrand).build();
-            Product p9 = Product.builder().name("Monitor 24ML60MP-B").price(new BigDecimal("96029.10")).brand(lgBrand).build();
+            Product p4 = Product.builder().name("T-Shirt Beyaz").price(new BigDecimal("24.99")).brand(maviBrand).build();
+            Product p5 = Product.builder().name("Short").price(new BigDecimal("42.99")).brand(maviBrand).build();
+            Product p6 = Product.builder().name("Macbook Pro").price(new BigDecimal("8000.00")).brand(appleBrand).build();
+            Product p7 = Product.builder().name("Iphone 17 Pro Max").price(new BigDecimal("3000.00")).brand(appleBrand).build();
+            Product p8 = Product.builder().name("TV OLED65G36 65 inch").price(new BigDecimal("10000.00")).brand(lgBrand).build();
+            Product p9 = Product.builder().name("Monitor 24ML60MP-B").price(new BigDecimal("1000.00")).brand(lgBrand).build();
 
             productRepository.saveAll(Arrays.asList(p1, p2, p3, p4, p5, p6, p7, p8, p9));
         }
