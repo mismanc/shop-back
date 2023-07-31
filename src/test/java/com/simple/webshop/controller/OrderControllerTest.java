@@ -1,10 +1,12 @@
 package com.simple.webshop.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.simple.webshop.domain.Order;
 import com.simple.webshop.model.CardDTO;
 import com.simple.webshop.model.OrderDTO;
 import com.simple.webshop.model.ProductDTO;
 import com.simple.webshop.model.ShippingOption;
+import com.simple.webshop.services.EmailService;
 import com.simple.webshop.services.OrderService;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
@@ -31,6 +33,9 @@ public class OrderControllerTest {
 
     @MockBean
     private OrderService orderService;
+
+    @MockBean
+    private EmailService emailService;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -104,6 +109,7 @@ public class OrderControllerTest {
 
 
         when(orderService.saveOrder(any(OrderDTO.class))).thenReturn(returned);
+        when(emailService.adminOrderMail(any(Order.class))).thenReturn(Collections.singletonMap("success", "true"));
 
         mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/orders")
                         .content(objectMapper.writeValueAsBytes(orderDTO))
@@ -121,7 +127,7 @@ public class OrderControllerTest {
 
     private CardDTO createCard() {
         return CardDTO.builder().cardNumber("5555555555554444")
-                .expirationDate("10/24").build();
+                .expirationDate("10/24").ccv("123").build();
     }
 
 }
